@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Reach Text Editor</title>
+<style>
+  * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+        position: relative;
+        font-family: lato
+    }
+    
+    body,
+    html {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%
+    }
+.content {
+        width: 100%;
+        margin: 0 auto;
+overflow:hidden
+    }
+    
+    .content h2 {
+        margin: 0;
+        padding: 25px 0;
+        font-size: 22px;
+        border-bottom: 1px solid #e0e0e3;
+        color: #4a536e
+    }
+    
+    .content>div,
+    .content>p {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1);
+        margin: 25px 0;
+        padding: 25px;
+        background-color: #fff
+    }
+    
+    .content>div table td,
+    .content>p table td {
+        padding: 5px
+    }
+    
+    .content>div table td:first-child,
+    .content>p table td:first-child {
+        font-weight: 700;
+        color: #4a536e;
+        padding-right: 15px
+    }
+    
+    .content>div p {
+        padding: 5px;
+        margin: 0 0 10px 0
+    }
+    
+    .content>div {
+        margin-top: 37px;
+        padding: 40px 11px
+    }
+
+    .content-tools form {
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .tools_nav {
+        width: 100%;
+        min-height: 29px;
+        display: flex;
+        background: black;
+        color: white;
+        align-items: center;
+        margin: 10px 0;
+        border-radius: 5px;
+        padding: 6px;
+    }
+    
+    .content>div p.tool {
+        margin: 0;
+        width: 25px;
+        margin: 0 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .textArea,
+    .textArea iframe {
+        width: 100%;
+        resize: vertical;
+    }
+    
+    .content-tools form button,
+    .stu_info button {
+        background: transparent;
+        border: none;
+        outline: none;
+        border-bottom: 0.5px solid;
+        margin: 5px 0;
+        cursor: pointer;
+        margin-inline-start: auto;
+        transition: 0.4s ease-in-out;
+        -webkit-transition: 0.4s ease-in-out;
+        -moz-transition: 0.4s ease-in-out;
+        -ms-transition: 0.4s ease-in-out;
+        -o-transition: 0.4s ease-in-out;
+    }
+    
+    .content-tools form button {
+        width: 150px;
+        height: 30px;
+    }
+    
+    .stu_info button {
+        width: 70px;
+        margin: 0 9px;
+    }
+    
+    .content-tools form button:hover,
+    .stu_info button:hover {
+        background: #4a536e;
+        color: white;
+    }
+    
+
+</style>
+</head>
+<body>
+<div class="content">
+<h1 class="section_title">Send report</h1>
+  <div class="content-tools">
+    <form action="" id="send_report">
+    <div class="tools_nav">
+      <p class="tool" data-cmd="bold" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-bold"></i></span></p>
+      <p class="tool" data-cmd="italic" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-italic"></i></span></p>
+      <p class="tool" data-cmd="link" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-link"></i></span></p>
+      <p class="tool" data-cmd="list-ul" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-list-ul"></i></span></p>
+      <p class="tool" data-cmd="align-center" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-align-center"></i></span></p>
+      <p class="tool" data-cmd="align-left" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-align-left"></i></span></p>
+      <p class="tool" data-cmd="align-right" onclick="formatText(this)"><span class="tool_icon"><i class="fa-solid fa-align-right"></i></span></p>
+  </div>
+  <div class="textArea">
+    <iframe name="report"></iframe>
+  </div>
+  <button type="submit">Send report</button>
+</form>
+  </div>
+</div>
+
+<script>
+report.document.designMode = "on";
+
+function formatText(ele) {
+    let dataCmd = ele.getAttribute('data-cmd');
+    if (dataCmd == 'bold') {
+        const strongElement = document.createElement("strong");
+        report.document.getSelection().getRangeAt(0).surroundContents(strongElement);
+    } else if (dataCmd == 'italic') {
+        const emElement = document.createElement("em");
+        report.document.getSelection().getRangeAt(0).surroundContents(emElement);
+    } else if (dataCmd == 'link') {
+        const alinkElement = document.createElement("a");
+        alinkElement.href = "";
+        report.document.getSelection().getRangeAt(0).surroundContents(alinkElement);
+    } else if (dataCmd == 'list-ul') {
+        const ulElement = document.createElement("ul");
+        const liElement = document.createElement("li");
+        ulElement.innerHTML = liElement;
+        report.document.getSelection().getRangeAt(0).surroundContents(liElement);
+    } else if (dataCmd == 'align-center') {
+        const pElement = document.createElement("p");
+        pElement.style.width = "100%";
+        pElement.style.textAlign = "Center";
+        report.document.getSelection().getRangeAt(0).surroundContents(pElement);
+    } else if (dataCmd == 'align-left') {
+        const pElement = document.createElement("p");
+        pElement.style.width = "100%";
+        pElement.style.textAlign = "left";
+        report.document.getSelection().getRangeAt(0).surroundContents(pElement);
+    } else if (dataCmd == 'align-right') {
+        const pElement = document.createElement("p");
+        pElement.style.width = "100%";
+        pElement.style.textAlign = "right";
+        console.log("Start" + report.document.getSelection().getRangeAt(0).startContainer.nodeName)
+        console.log("End" + report.document.getSelection().getRangeAt(0).endContainer.nodeName)
+        console.log(report.document.getSelection().getRangeAt(0).commonAncestorContainer.parentNode);
+        report.document.getSelection().getRangeAt(0).surroundContents(pElement);
+    }
+}
+</script>
+<script src="all.js"></script>
+</body>
+</html>
